@@ -11,21 +11,24 @@ Construindo Projeto Lógico de Banco de Dados para o cenário de e-commerce com 
  
  _**1.2. Filtros com WHERE Statement**_
  
- Selecionando informações do Produto e Estoque com a WHERE Statement. Atributo derivado _Valor_Total_ é o produto de Preço e Quantidade nas tabelas _Produto_ e _No_Estoque_, respectivamente.
+ Selecionando informações das tabelas _Produto_ e _Estoque_ com a WHERE Statement. Atributo derivado _Valor_Total_ é o produto de _Preço_ e _Quantidade_ nas tabelas _Produto_ e _No_Estoque_, respectivamente.
  
       SELECT p.ProdDescricao, p.Preco, e.LocalEstoque, ne.Quantidade, (p.Preco * ne.Quantidade) AS Valor_Total
       FROM Produto p, Estoque e, No_Estoque ne
       WHERE p.idProduto=ne.Produto_id AND ne.Estoque_id=e.idEstoque;
- 
+      
+ ![imagem2](https://user-images.githubusercontent.com/40408615/194132738-5dfe7bc3-6d4e-4003-a794-3b6b14865648.png)
+
  _**1.3. Expressões com atributos derivados e Funções do MySQL DATEDIFF e DATE_FORMAT**_
  
- Consultando informações da Entrega utilizando as Funções do MySQL DATEDIFF (retorna a diferença entre duas datas) e DATE_FORMAT (formata a data). Por meio do Atributo _Dias_Entrega_ podemos analisar a rapidez ou demora de uma entrega.
+ Consultando informações da _Entrega_ utilizando as Funções do MySQL DATEDIFF (retorna a diferença entre duas datas) e DATE_FORMAT (formata a data). Por meio do Atributo _Dias_Entrega_ podemos analisar a rapidez ou demora de uma entrega.
  
       SELECT e.idEntrega, DATE_FORMAT(e.Data_Embarque,'%d/%m/%Y') AS Data_Embarque, 
          DATE_FORMAT(e.Data_Entrega,'%d/%m/%Y') AS Data_Entrega,
          DATEDIFF(e.Data_Entrega, e.Data_Embarque) AS Dias_Entrega 
       FROM Entrega e;
  
+
  _**1.4. Ordenações dos dados com ORDER BY**_
  
  Ordenando os dados por _Data_Embarque_, _Data_Entrega_, _Dias_Entrega_, em ordem decrescente.
@@ -35,6 +38,8 @@ Construindo Projeto Lógico de Banco de Dados para o cenário de e-commerce com 
          DATEDIFF(e.Data_Entrega, e.Data_Embarque) AS Dias_Entrega 
       FROM Entrega e
       ORDER BY Data_Embarque, Data_Entrega, Dias_Entrega DESC;
+      
+![imagem1](https://user-images.githubusercontent.com/40408615/194132221-39ea133a-87a7-4525-96f2-f6a1062f2426.png)
  
  _**1.5. Agrupamentos com GROUP BY e Condições de filtros aos grupos – HAVING Statement**_
  
@@ -42,6 +47,8 @@ Construindo Projeto Lógico de Banco de Dados para o cenário de e-commerce com 
       FROM (Pedido p JOIN Pagamento pag ON pag.idPagamento=p.Pagamento_id) 
       GROUP BY Forma_Pagamento 
       HAVING COUNT(Forma_Pagamento)>=1;
+ 
+ ![imagem7](https://user-images.githubusercontent.com/40408615/194135019-77c9327d-6a59-4dc4-8ef3-7647fc0b35cd.png)
  
  _**1.6. Junções entre tabelas para fornecer uma perspectiva mais complexa dos dados**_
  
@@ -64,6 +71,7 @@ Construindo Projeto Lógico de Banco de Dados para o cenário de e-commerce com 
          ON c.idCliente = p.Cliente_id
       ORDER BY Dias_Entrega, Data_Embarque, Data_Entrega, Preco;
 
+![imagem3](https://user-images.githubusercontent.com/40408615/194133391-af6bda0d-0740-4076-bd42-9c58d2ed4acd.png)
 
 ## 2. Queries SQL mais elaboradas:
 
@@ -75,6 +83,8 @@ _**2.1. Quantos pedidos foram feitos por cada cliente?**_
       WHERE c.idCliente=p.Cliente_id 
       GROUP BY Cliente
       ORDER BY Pedidos DESC;
+
+![imagem4](https://user-images.githubusercontent.com/40408615/194133989-66afedf3-ffb4-4d03-a062-052a1415724c.png)
 
 _**2.2. Algum vendedor também é fornecedor?**_
 
@@ -98,6 +108,8 @@ A query abaixo apresenta informações de produtos em estoque e seus fornecedore
          ON f.idFornecedor=fp.Fornecedor_id 
       ORDER BY p.ProdDescricao;
 
+![imagem5](https://user-images.githubusercontent.com/40408615/194134326-dad318bf-a9b9-448e-ad28-6b16656d37a5.png)
+
 _**2.4. Relação de nomes dos fornecedores e nomes dos produtos.**_
 
       SELECT f.idFornecedor,f.RazaoSocial AS Fornecedor, p.ProdDescricao AS Produto 
@@ -107,3 +119,6 @@ _**2.4. Relação de nomes dos fornecedores e nomes dos produtos.**_
       JOIN Fornecedor f 
          ON f.idFornecedor=fp.Fornecedor_id 
       ORDER BY p.ProdDescricao;
+
+![imagem6](https://user-images.githubusercontent.com/40408615/194134550-3328ce33-30a7-4c04-b8ab-6116a4faa125.png)
+
