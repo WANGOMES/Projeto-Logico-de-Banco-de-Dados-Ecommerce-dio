@@ -38,6 +38,11 @@ Construindo Projeto Lógico de Banco de Dados para o cenário de e-commerce com 
  
  _**1.5. Agrupamentos com GROUP BY e Condições de filtros aos grupos – HAVING Statement**_
  
+      SELECT pag.PagTipo AS Forma_Pagamento, COUNT(pag.idPagamento) AS Pedidos 
+      FROM (Pedido p JOIN Pagamento pag ON pag.idPagamento=p.Pagamento_id) 
+      GROUP BY Forma_Pagamento 
+      HAVING COUNT(Forma_Pagamento)>=1;
+ 
  _**1.6. Junções entre tabelas para fornecer uma perspectiva mais complexa dos dados**_
  
  Join entre as tabelas _Entrega_, _Entrega_Pedidos_, _Pedido_, _Lista_Produtos_, _Produto_ e _Cliente_
